@@ -2,10 +2,12 @@ package main
 
 import (
 	"database/sql"
+	"gobooks/internal/cli"
 	"gobooks/internal/service"
 	"gobooks/internal/web"
 	"log"
 	"net/http"
+	"os"
 
 	_ "modernc.org/sqlite"
 )
@@ -23,6 +25,12 @@ func main() {
 
 	// Inicializando os handlers
 	bookHandlers := web.NewBookHandlers(bookService)
+
+	if len(os.Args) > 1 && (os.Args[1] == "search" || os.Args[1] == "simulate") {
+		bookCLI := cli.NewBookCLI(bookService)
+		bookCLI.Run()
+		return
+	}
 
 	// Criando o roteador com o novo servidor
 	router := http.NewServeMux()
