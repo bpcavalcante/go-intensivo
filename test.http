@@ -8,13 +8,23 @@ POST http://localhost:8080/books
 Content-Type: application/json
 
 {
-  "title": "Clean Code",
+  "title": "Clean Architecture",
   "author": "Robert C. Martin",
   "genre": "Software Engineering"
 }
 
+### ler livros
+POST http://localhost:8080/books/simulate-reading
+Content-Type: application/json
+
+["1","2","3","4"]
+
 ### Listar 1 livro especifico
 GET http://localhost:8080/books/5
+Accept: application/json
+
+### Buscar Livros 
+GET http://localhost:8080/books/search?name=Architecture
 Accept: application/json
 
 ### Atualizar um livro existente

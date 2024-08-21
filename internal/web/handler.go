@@ -5,6 +5,7 @@ import (
 	"gobooks/internal/service"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 // BookHandlers lida com as requisições HTTP relacionadas a livros.
@@ -136,4 +137,29 @@ func (h *BookHandlers) SearchBooks(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(books)
+}
+
+func (h *BookHandlers) SimulateReading(w http.ResponseWriter, r *http.Request) {
+
+	// Decodifica o corpo da requisição para um array de strings (IDs)
+	var bookIDsStr []string
+	if err := json.NewDecoder(r.Body).Decode(&bookIDsStr); err != nil {
+		http.Error(w, "Invalid request payload", http.StatusBadRequest)
+	}
+
+	// Converte os IDs de string para int
+	var bookIds []int
+	for _, idStr := range bookIDsStr {
+		id, err := strconv.Atoi(idStr)
+		if err != nil {
+			http.Error(w, "Invalid book ID: "+idStr, http.StatusBadRequest)
+			return
+		}
+		bookIds = append(bookIds, id)
+	}
+
+	responses := h.service.SimulateMultipleReadings(bookIds, 5*time.Second)
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(responses)
 }

@@ -38,6 +38,7 @@ func main() {
 	// Configurando as rotas RESTful
 	router.HandleFunc("GET /books", bookHandlers.GetBooks)
 	router.HandleFunc("POST /books", bookHandlers.CreateBook)
+	router.HandleFunc("POST /books/simulate-reading", bookHandlers.SimulateReading)
 	router.HandleFunc("GET /books/{id}", bookHandlers.GetBookByID)
 	router.HandleFunc("PUT /books/{id}", bookHandlers.UpdateBook)
 	router.HandleFunc("DELETE /books/{id}", bookHandlers.DeleteBook)
