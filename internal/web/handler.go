@@ -115,3 +115,25 @@ func (h *BookHandlers) DeleteBook(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusNoContent)
 }
+
+func (h *BookHandlers) SearchBooks(w http.ResponseWriter, r *http.Request) {
+	name := r.URL.Query().Get("name")
+	if name == "" {
+		http.Error(w, "Name parameter is required", http.StatusBadRequest)
+		return
+	}
+
+	books, err := h.service.SearchBooksByName(name)
+	if err != nil {
+		http.Error(w, "Error Searching books", http.StatusBadRequest)
+		return
+	}
+
+	if len(books) == 0 {
+		http.Error(w, "No books found", http.StatusNoContent)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(books)
+}

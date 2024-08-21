@@ -41,6 +41,7 @@ func main() {
 	router.HandleFunc("GET /books/{id}", bookHandlers.GetBookByID)
 	router.HandleFunc("PUT /books/{id}", bookHandlers.UpdateBook)
 	router.HandleFunc("DELETE /books/{id}", bookHandlers.DeleteBook)
+	router.HandleFunc("GET /books/search", bookHandlers.SearchBooks)
 
 	// Iniciando o servidor
 	log.Println("Server is running on port 8080...")

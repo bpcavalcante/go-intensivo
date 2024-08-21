@@ -14,7 +14,7 @@ Content-Type: application/json
 }
 
 ### Listar 1 livro especifico
-GET http://localhost:8080/books/0
+GET http://localhost:8080/books/5
 Accept: application/json
 
 ### Atualizar um livro existente
